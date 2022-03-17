@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useReducer, useContext } from "react";
-
+import { Navigate } from "react-router-dom";
 import Page from "../components/Page";
 import { apiLogin } from "../services/api";
 
 import DispatchContext from "../DispatchContext";
+import StateContext from "../StateContext";
 
 const initialState = {
   email: "",
@@ -14,6 +15,7 @@ const initialState = {
 
 const LoginPage = () => {
   const appDispatch = useContext(DispatchContext);
+  const appState = useContext(StateContext);
 
   const loginReducer = (state, action) => {
     switch (action.type) {
@@ -62,7 +64,9 @@ const LoginPage = () => {
     dispatch({ type: "setSubmit", value: true });
   }
 
-  return (
+  return appState.isLoggedIn ? (
+    <Navigate to="/" />
+  ) : (
     <Page>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>

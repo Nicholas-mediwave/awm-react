@@ -13,6 +13,7 @@ import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
 
 import Loading from "./components/Loading";
+import PrivateRoute from "./components/PrivateRoute";
 
 import Home from "./pages/Home";
 const Login = lazy(() => import("./pages/Login"));
@@ -75,7 +76,7 @@ function App() {
           <Suspense fallback={<Loading />}>
             <BrowserRouter>
               <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<PrivateRoute outlet={<Home />} />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
               </Routes>
@@ -88,3 +89,12 @@ function App() {
 }
 
 export default App;
+
+// function MyEl(props) {
+//   props.foo
+//   props.children
+// }
+
+// <MyEl foo="bar">
+//   <p>Foo</p>
+// </MyEl>

@@ -1,11 +1,17 @@
 import axios from "axios";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { Navigate } from "react-router-dom";
+
 import Page from "../components/Page";
 
 import { apiSignup } from "../services/api";
 
+import StateContext from "../StateContext";
+
 const SignupPage = () => {
+  const appState = useContext(StateContext);
+
   const [state, setState] = useState({
     email: "",
     password: "",
@@ -44,7 +50,9 @@ const SignupPage = () => {
     e.preventDefault();
     setState((prev) => ({ ...prev, submit: true }));
   }
-  return (
+  return appState.isLoggedIn ? (
+    <Navigate to="/" />
+  ) : (
     <Page>
       <h1>Signup</h1>
       <form onSubmit={handleSubmit}>
