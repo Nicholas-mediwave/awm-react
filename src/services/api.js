@@ -11,10 +11,19 @@ const http = axios.create({
 
 export default http;
 
+export const setAccessTokenHeader = (token) => {
+  http.defaults.headers.common = { Authorization: `Bearer ${token}` };
+  return;
+};
+
 export const apiSignup = ({ cancelToken, payload }) => {
   return http.post("/users", payload, { cancelToken });
 };
 
 export const apiLogin = ({ cancelToken, payload }) => {
   return http.post("/sessions", payload, { cancelToken });
+};
+
+export const apiGetUserInfo = ({ cancelToken }) => {
+  return http.get("/users", { cancelToken });
 };

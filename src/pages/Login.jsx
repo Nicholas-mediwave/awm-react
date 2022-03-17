@@ -1,8 +1,10 @@
 import axios from "axios";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useContext } from "react";
 
 import Page from "../components/Page";
 import { apiLogin } from "../services/api";
+
+import DispatchContext from "../DispatchContext";
 
 const initialState = {
   email: "",
@@ -11,6 +13,8 @@ const initialState = {
 };
 
 const LoginPage = () => {
+  const appDispatch = useContext(DispatchContext);
+
   const loginReducer = (state, action) => {
     switch (action.type) {
       case "setEmail":
@@ -31,13 +35,14 @@ const LoginPage = () => {
 
     async function login() {
       try {
-        await apiLogin({
+        const { data } = await apiLogin({
           payload: {
             email: state.email,
             password: state.password,
           },
           cancelToken: request.token,
         });
+        appDispatch({ type: "login", value: data.data });
       } catch (e) {
         console.log(e);
       } finally {
@@ -48,7 +53,9 @@ const LoginPage = () => {
     if (state.submit) {
       login();
     }
-  }, [state.submit, state.email, state.password]);
+
+    return () => request.cancel();
+  }, [state.submit, state.email, state.password, appDispatch]);
 
   function handleSubmit(e) {
     e.preventDefault();
