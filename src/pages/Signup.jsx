@@ -28,6 +28,8 @@ const SignupPage = () => {
         });
       } catch (e) {
         console.log(e);
+      } finally {
+        setState((prev) => ({ ...prev, submit: false }));
       }
     }
 

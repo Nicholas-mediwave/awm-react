@@ -14,3 +14,7 @@ export default http;
 export const apiSignup = ({ cancelToken, payload }) => {
   return http.post("/users", payload, { cancelToken });
 };
+
+export const apiLogin = ({ cancelToken, payload }) => {
+  return http.post("/sessions", payload, { cancelToken });
+};
